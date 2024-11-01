@@ -16,17 +16,13 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { owner, repo } = context.repo;
-            const pull_number = context.payload.pull_request.number;
-            const issue = await github.issues.getIssue({ owner, repo, issue_number: pull_number });
-            return issue.data.labels.some(label => label.name == '${{ env.APPROVE_LABEL }}');
+            return context.payload.pull_request.labels?.some(label => label.name == '${{ env.APPROVE_LABEL }}');
 
       - name: Add label
         uses: jburgess/AddRemovePrLabels@v1.0.4
         if: |
           (github.event.action == 'submitted' &&
-          github.event.review.state == 'approved') &&
-          !steps.check_approve_label.outputs.result
+          github.event.review.state == 'approved')
         with:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
           labelsToAdd: ${{ env.APPROVE_LABEL }}
