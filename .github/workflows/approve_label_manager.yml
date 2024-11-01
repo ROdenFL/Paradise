@@ -21,8 +21,8 @@ jobs:
       - name: Add label
         uses: jburgess/AddRemovePrLabels@v1.0.4
         if: |
-          github.event.action == 'submitted' &&
-          github.event.review.state == 'approved' &&
+          (github.event.action == 'submitted' &&
+          github.event.review.state == 'approved') &&
           steps.check_approve_label.outputs.result == 'false'
         with:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
