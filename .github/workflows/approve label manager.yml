@@ -18,14 +18,8 @@ jobs:
           script: |
             const { owner, repo } = context.repo;
             const pull_number = context.payload.pull_request.number;
-
-            const { data: labels } = await context.github.issues.listLabelsOnIssue({
-              owner,
-              repo,
-              issue_number: pull_number,
-            });
-
-            return labels.some(label => label.name === process.env.APPROVE_LABEL);
+            const issue = await github.issues.getIssue({ owner, repo, issue_number: pull_number });
+            return issue.data.labels.some(label => label.name == '${{ env.APPROVE_LABEL }}');
 
       - name: Add label
         uses: jburgess/AddRemovePrLabels@v1.0.4
