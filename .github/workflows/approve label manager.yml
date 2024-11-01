@@ -23,10 +23,11 @@ jobs:
         uses: jburgess/AddRemovePrLabels@v1.0.4
         if: |
           (github.event.action == 'submitted' &&
-          github.event.review.state == 'approved')
+          github.event.review.state == 'approved') &&
+          !steps.check_approve_label.outputs.result
         with:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
-          labelsToAdd: ${{ env.APPROVE_LABEL }}
+          labelsToAdd: '${{ env.APPROVE_LABEL }}'
 
       - name: Remove label
         uses: jburgess/AddRemovePrLabels@v1.0.4
@@ -37,4 +38,4 @@ jobs:
           steps.check_approve_label.outputs.result
         with:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
-          labelsToRemove: ${{ env.APPROVE_LABEL }}
+          labelsToRemove: '${{ env.APPROVE_LABEL }}'
