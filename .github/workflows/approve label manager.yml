@@ -34,7 +34,7 @@ jobs:
         if: |
           (github.event.action == 'dismissed' || 
           (github.event.action == 'submitted' && 
-          github.event.review.state !== 'approved')) && 
+          github.event.review.state != 'approved')) && 
           steps.check_approve_label.outputs.result
         with:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
