@@ -17,7 +17,7 @@ jobs:
         with:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
           script: |
-            return context.payload.pull_request.labels?.some(label => label.name == '${{ env.APPROVE_LABEL }}') ?? false;
+            return context.payload.pull_request.labels?.some(label => label.name == '${{ env.APPROVE_LABEL }}');
 
       - name: Add label
         uses: jburgess/AddRemovePrLabels@v1.0.4
