@@ -18,8 +18,8 @@ jobs:
           script: |
             const { owner, repo } = context.repo;
             const pull_number = context.payload.pull_request.number;
-            
-            const { data: labels } = await github.issues.listLabels({
+
+            const { data: labels } = await context.github.issues.listLabelsOnIssue({
               owner,
               repo,
               issue_number: pull_number,
