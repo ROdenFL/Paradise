@@ -34,7 +34,7 @@ jobs:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
           script: |
             const { owner, repo } = context.repo;
-            const { pull_request: pullRequest } = context.payload;
+            const pullRequest = context.payload.pull_request;
 
             const { data: reviews } = await github.rest.pulls.listReviews({
               owner,
