@@ -44,11 +44,7 @@ jobs:
             const { data: branchProtection } = await github.repos.getBranchProtection({
               owner,
               repo,
-              branch: >
-                ${{
-                  github.event.pull_request.base.ref || 
-                  context.payload.ref
-                }}
+              branch: context.payload.ref || github.event.pull_request.base.ref
             });
 
             if (
