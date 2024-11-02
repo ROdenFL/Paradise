@@ -36,6 +36,12 @@ jobs:
             const { owner, repo } = context.repo;
             const { number: pullRequestNumber} = context.issue; 
 
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: pullRequestNumber
+            });
+
             const { data: reviews } = await github.rest.pulls.listReviews({
               owner,
               repo,
@@ -45,7 +51,7 @@ jobs:
             const { data: branchProtection } = await github.rest.repos.getBranchProtection({
               owner,
               repo,
-              branch: context.payload.ref || github.rest.event.pull_request.base.ref
+              branch: context.payload.ref || pullRequest.base.ref
             });
 
             if (
