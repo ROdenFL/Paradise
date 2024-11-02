@@ -1,7 +1,7 @@
 name: Approve Label Manager
 
 on:
-  pull_request_review:
+  pull_request:
     types: [submitted, dismissed]
 
 env:
@@ -34,7 +34,7 @@ jobs:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
           script: |
             const { owner, repo } = context.repo;
-            const pullRequest = context.payload.pull_request;
+            const { pull_request: pullRequest } = context.payload;
 
             const { data: reviews } = await github.rest.pulls.listReviews({
               owner,
