@@ -34,6 +34,7 @@ jobs:
           githubToken: '${{ secrets.GITHUB_TOKEN }}'
           script: |
             const { owner, repo } = context.repo;
+            const { pull_request: pullRequest } = context.payload;
 
             const { data: reviews } = await github.rest.pulls.listReviews({
               owner,
@@ -41,10 +42,10 @@ jobs:
               pull_number: pullRequest.number
             });
 
-            const { data: branchProtection } = await github.repos.getBranchProtection({
+            const { data: branchProtection } = await github.rest.repos.getBranchProtection({
               owner,
               repo,
-              branch: context.payload.ref || github.event.pull_request.base.ref
+              branch: context.payload.ref || github.rest.event.pull_request.base.ref
             });
 
             if (
@@ -56,9 +57,9 @@ jobs:
                 steps.check_approve_label.outputs.result == 'true'
             ) {
               await github.issues.removeLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
+                owner,
+                repo,
                 issue_number: context.issue.number,
-                name: labelsToRemove,
+                name: '${{ env.APPROVE_LABEL }}'
               });
             }
