@@ -53,12 +53,12 @@ jobs:
                 github.event.action == 'dismissed') ||
                 (github.event.action == 'submitted' && 
                 github.event.review.state != 'approved') && 
-                steps.check_approve_label.outputs.result == 'true')
-              ) {
+                steps.check_approve_label.outputs.result == 'true'
+            ) {
               await github.issues.removeLabel({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
                 name: labelsToRemove,
-              }
-            });
+              });
+            }
