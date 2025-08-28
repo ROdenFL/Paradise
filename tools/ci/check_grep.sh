@@ -224,7 +224,7 @@ if grep -P '^/*var/' code/**/*.dm; then
 	echo
     st=1
 fi;
-if grep P '(?<!//)#define FAST_LOAD' _maps/common.dm; then
+if grep -P '(?<!//)#define FAST_LOAD' _maps/common.dm; then
     echo -e "${RED}ERROR: commiting uncommented FAST_LOAD define.${NC}"
 	echo
     st=1
