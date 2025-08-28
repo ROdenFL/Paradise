@@ -707,7 +707,8 @@
 		span_warning("[name] пыта[pluralize_ru(gender, "ет", "ют")]ся себя отстегнуть!"),
 		span_notice("Вы пытаетесь себя отстегнуть. Это займет примерно [breakout_time * 0.1] секунд[declension_ru(breakout_time * 0.1, "у", "ы", "")]."),
 	)
-	if(do_after(src, breakout_time, src, DEFAULT_DOAFTER_IGNORE|DA_IGNORE_HELD_ITEM))
+	if(do_after(src, breakout_time, src, DEFAULT_DOAFTER_IGNORE|DA_IGNORE_HELD_ITEM, max_interact_count = 1, cancel_on_max = TRUE,
+		cancel_message = span_warning("Вы перестали пытаться отстегнуться.")))
 		if(!buckled)
 			return
 
@@ -922,7 +923,7 @@ so that different stomachs can handle things in different ways VB*/
 
 	if(client.eye && client.eye != src)
 		var/atom/atom = client.eye
-		
+
 		if(atom.update_remote_sight(src)) // returns TRUE if we override all other sight updates.
 			return
 

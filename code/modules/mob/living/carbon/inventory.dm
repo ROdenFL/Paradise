@@ -106,19 +106,17 @@
 			span_warning("[name] пыта[pluralize_ru(gender, "ет", "ют")]ся сломать [I.declent_ru(ACCUSATIVE)]!"),
 			span_notice("Вы пытаетесь сломать [I.declent_ru(ACCUSATIVE)]. Это займёт примерно 5 секунд."),
 		)
-		if(do_after(src, breakout_time, src, DEFAULT_DOAFTER_IGNORE|DA_IGNORE_HELD_ITEM))
-			. = clear_cuffs(I, cuff_break)
-		else
-			to_chat(src, span_warning("Вам не удалось сломать [I.declent_ru(ACCUSATIVE)]!"))
 	else
 		visible_message(
 			span_warning("[name] пыта[pluralize_ru(gender, "ет", "ют")]ся снять [I.declent_ru(ACCUSATIVE)]!"),
 			span_notice("Вы пытаетесь снять [I.declent_ru(ACCUSATIVE)]. Это займёт примерно [breakout_time / 10] секунд[declension_ru(breakout_time / 10, "у", "ы", "")]."),
 		)
-		if(do_after(src, breakout_time, src, DEFAULT_DOAFTER_IGNORE|DA_IGNORE_HELD_ITEM))
-			. = clear_cuffs(I, cuff_break)
-		else
-			to_chat(src, span_warning("Вам не удалось снять [I.declent_ru(ACCUSATIVE)]!"))
+
+	if(do_after(src, breakout_time, src, DEFAULT_DOAFTER_IGNORE|DA_IGNORE_HELD_ITEM, max_interact_count = 1, cancel_on_max = TRUE,
+		cancel_message = span_warning("Вы перестали пытаться отстегнуться.")))
+		. = clear_cuffs(I, cuff_break)
+	else
+		to_chat(src, span_warning("Вам не удалось сломать [I.declent_ru(ACCUSATIVE)]!"))
 
 
 /mob/living/carbon/proc/clear_cuffs(obj/item/I, cuff_break)
