@@ -453,6 +453,7 @@ GLOBAL_LIST_EMPTY(damage_icon_parts)
 		overlays_standing[FHAIR_LAYER] = mutable_appearance(face_standing, layer = -FHAIR_LAYER)
 		apply_overlay(FHAIR_LAYER)
 
+#define MUTATION_OUTLINE_FILTER "m_outline"
 
 /mob/living/carbon/human/update_mutations()
 	remove_overlay(MUTATIONS_LAYER)
@@ -469,10 +470,26 @@ GLOBAL_LIST_EMPTY(damage_icon_parts)
 				standing.underlays += underlay
 				add_image = TRUE
 
-	if(HAS_TRAIT_FROM(src, TRAIT_RESIST_COLD, DNA_TRAIT) && HAS_TRAIT_FROM(src, TRAIT_RESIST_HEAT, DNA_TRAIT))
-		standing.underlays -= "cold_s"
-		standing.underlays -= "fire_s"
-		standing.underlays += "coldfire_s"
+	filters -= MUTATION_OUTLINE_FILTER
+
+	if(HAS_TRAIT_FROM(src, TRAIT_RESIST_COLD, DNA_TRAIT) || HAS_TRAIT_FROM(src, TRAIT_RESIST_HEAT, DNA_TRAIT))
+		var/filter
+		if(!HAS_TRAIT_FROM(src, TRAIT_RESIST_COLD, DNA_TRAIT))
+			filter = filter(type = "outline", size = 3, color = "#FF6633")
+			animate(filter, color = "#FFFF99", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+			animate(color = "#FF6633", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+		else if(!HAS_TRAIT_FROM(src, TRAIT_RESIST_HEAT, DNA_TRAIT))
+			filter = filter(type = "outline", size = 3, color = "#1DAFE2")
+			animate(filter, color = "#98E4FE", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+			animate(color = "#1DAFE2", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+		else
+			filter = filter(type = "outline", size = 3, color = "#FF5019")
+			animate(filter, color = "#98E4FE", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+			animate(color = "#FFCB2F", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+			animate(color = "#FF5019", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+
+		if(filter)
+			filters[MUTATION_OUTLINE_FILTER] = filter
 
 	if(HAS_TRAIT(src, TRAIT_LASEREYES))
 		standing.overlays += "lasereyes_s"
@@ -481,6 +498,8 @@ GLOBAL_LIST_EMPTY(damage_icon_parts)
 	if(add_image)
 		overlays_standing[MUTATIONS_LAYER] = standing
 	apply_overlay(MUTATIONS_LAYER)
+
+#undef MUTATION_OUTLINE_FILTER
 
 /mob/living/carbon/human/proc/update_mutant_ears()
 	remove_overlay(MUTANT_EARS_LAYER)

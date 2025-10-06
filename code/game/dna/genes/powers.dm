@@ -77,10 +77,6 @@
 	block = GLOB.coldblock
 
 
-/datum/dna/gene/basic/heat_resist/OnDrawUnderlays(mob/M, g)
-	return "cold_s"
-
-
 /datum/dna/gene/basic/cold_resist
 	name = "Хладостойкость"
 	activation_messages = list("От вашей кожи веет жаром.")
@@ -92,10 +88,6 @@
 /datum/dna/gene/basic/cold_resist/New()
 	..()
 	block = GLOB.fireblock
-
-
-/datum/dna/gene/basic/cold_resist/OnDrawUnderlays(mob/M, g)
-	return "fire_s"
 
 
 /datum/dna/gene/basic/noprints
