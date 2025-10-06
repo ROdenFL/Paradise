@@ -473,23 +473,19 @@ GLOBAL_LIST_EMPTY(damage_icon_parts)
 	filters -= MUTATION_OUTLINE_FILTER
 
 	if(HAS_TRAIT_FROM(src, TRAIT_RESIST_COLD, DNA_TRAIT) || HAS_TRAIT_FROM(src, TRAIT_RESIST_HEAT, DNA_TRAIT))
-		var/filter
+		var/filter = filter(type = "outline", size = 1, color = "#98E4FE")
+		filters += filter
+
 		if(!HAS_TRAIT_FROM(src, TRAIT_RESIST_COLD, DNA_TRAIT))
-			filter = filter(type = "outline", size = 3, color = "#FF6633")
-			animate(filter, color = "#FFFF99", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+			animate(filters[length(filters)], color = "#FFFF99", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
 			animate(color = "#FF6633", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
 		else if(!HAS_TRAIT_FROM(src, TRAIT_RESIST_HEAT, DNA_TRAIT))
-			filter = filter(type = "outline", size = 3, color = "#1DAFE2")
-			animate(filter, color = "#98E4FE", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+			animate(filters[length(filters)], color = "#98E4FE", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
 			animate(color = "#1DAFE2", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
 		else
-			filter = filter(type = "outline", size = 3, color = "#FF5019")
-			animate(filter, color = "#98E4FE", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
+			animate(filters[length(filters)], color = "#98E4FE", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
 			animate(color = "#FFCB2F", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
 			animate(color = "#FF5019", time = 0.5 SECONDS, loop = -1, easing = CIRCULAR_EASING)
-
-		if(filter)
-			filters[MUTATION_OUTLINE_FILTER] = filter
 
 	if(HAS_TRAIT(src, TRAIT_LASEREYES))
 		standing.overlays += "lasereyes_s"
